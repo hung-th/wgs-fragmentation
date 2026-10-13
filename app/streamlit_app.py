@@ -285,6 +285,29 @@ st.caption(
     "**Planning aid only. It does not replace a test fragmentation of your own samples.**"
 )
 
+with st.popover("How length and input affect fragmentation"):
+    st.markdown(
+        """
+**Starting length**
+- Fragment size depends on cuts per bp: `1/size ≈ λ(t) + 1/L0`.
+- Above ~50 kb, `1/L0` is negligible: 50 kb, 1 Mb and 40 Mb give the same sizes (within ~1 %).
+- Length only matters below ~10 kb, where molecule ends make fragments shorter, so less time is
+  needed.
+
+**Input amount**
+- Cutting rate per bp is set by the free enzyme concentration, not by the amount of DNA. Less
+  DNA means fewer cuts in total, but also fewer bp to cut, so the size is the same (default,
+  α = 0).
+- Less DNA fragments faster only if the DNA ties up a large share of the enzyme (saturation).
+  The α setting models this; α = 1 is the fully saturated extreme.
+- NEB uses one protocol for 5-250 ng, which suggests the effect is small.
+
+**Check it yourself:** fragment the same DNA at a low and a high input (e.g. 10 and 200 ng)
+for the same time. Equal sizes → α ≈ 0. Smaller at low input → add both as calibration
+points and raise α until they fit.
+"""
+    )
+
 m1, m2, m3, m4 = st.columns(4)
 m1.metric(
     f"Predicted size at {t_min:g} min",
