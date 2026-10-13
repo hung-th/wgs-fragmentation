@@ -12,7 +12,8 @@ reach a target size, or to put as much DNA as possible into a size window.
 
 ![App screenshot](docs/screenshot.png)
 
-**Live app:** *not deployed yet*. See [Deployment](#deployment). To run it locally:
+**Live app: <https://hung-wgs-fragmentation.streamlit.app/>** (it may take ~30 s to wake up if
+nobody has used it recently). To run it locally instead:
 
 ```bash
 git clone https://github.com/hung-th/wgs-fragmentation.git
@@ -147,7 +148,8 @@ Development: `pip install -e ".[dev]" && ruff check . && pytest`.
 
 ## Deployment
 
-**Streamlit Community Cloud** (free): sign in at <https://share.streamlit.io>, choose
+The live app runs on **Streamlit Community Cloud** from the `main` branch and updates
+automatically on every push. To deploy your own copy (free): sign in at <https://share.streamlit.io>, choose
 *Create app*, select this repository and branch, and set the main file to
 `app/streamlit_app.py`. `requirements.txt` installs the package with its app extras. Free apps
 go to sleep when idle and take ~30 s to wake.
