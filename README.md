@@ -38,6 +38,8 @@ streamlit run app/streamlit_app.py
   to fit the shape of the size distribution.
 * **Downloads**: predictions (CSV), all settings and parameters (JSON), and plots (interactive
   HTML; PNG via the camera icon on each chart).
+* **Quick explainer**: the *How length and input affect fragmentation* button under the title
+  summarises the two sections below.
 
 ![Size distribution](docs/screenshot_distribution.png)
 
@@ -56,6 +58,41 @@ streamlit run app/streamlit_app.py
 leave-one-out RMSE **4.4 %**. The selected cut-density model is `λ(t) = a + b·t`, chosen by AICc
 over linear, power-law and saturating forms. See [`docs/model.md`](docs/model.md) for the
 equations, model comparison and limitations.
+
+## How starting length and input amount matter
+
+**Starting length.** Fragment size follows the cut density: `1/size ≈ λ(t) + 1/L0`. Above about
+50 kb the `1/L0` term is negligible, so 50 kb, 1 Mb and 40 Mb DNA all give the same result:
+
+| Time (min) | 50 kb | 1 Mb | 40 Mb |
+|---|---|---|---|
+| 10 | 836 bp | 843 bp | 843 bp |
+| 30 | 364 bp | 365 bp | 365 bp |
+| Time to reach 350 bp | 31.4 min | 31.5 min | 31.5 min |
+
+Starting length matters only below about 10 kb. There, molecule ends make the fragments shorter,
+so less time is needed (e.g. 3 kb DNA reaches about 725 bp at 10 min, against about 840 bp for
+HMW DNA). Megabase DNA usually breaks into shorter pieces during handling anyway, which does not
+change the prediction. The app accepts starting lengths up to 5 Mb, and anything above about
+1 Mb behaves the same.
+
+**Input amount.** The cutting rate per bp is set by the concentration of free enzyme, not by the
+amount of DNA. With less DNA there are fewer cuts in total, but also fewer bp to cut, so the size
+is the same. That is the default (`α = 0`). Less DNA fragments faster only if the DNA ties up a
+large share of the enzyme (saturation). The `α` setting models this, and `α = 1` is the fully
+saturated extreme. NEB uses one protocol across 5-250 ng, which suggests the effect is small.
+
+Time to reach 350 bp (HMW DNA) for different assumed `α`:
+
+| α | 10 ng | 50 ng | 200 ng |
+|---|---|---|---|
+| 0 (default) | 31 min | 31 min | 31 min |
+| 0.25 | 21 min | 31 min | 44 min |
+| 0.5 | 14 min | 31 min | 63 min |
+
+**Check it yourself.** Fragment the same DNA at a low and a high input (e.g. 10 and 200 ng) for
+the same time. If the sizes match, `α ≈ 0`. If the low input gives a smaller size, add both as
+calibration points with their `input_ng` and raise `α` until they fit.
 
 ## Using your own calibration points
 
