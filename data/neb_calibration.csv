@@ -1,0 +1,14 @@
+# Source: New England Biolabs, NEBNext UltraShear (NEB #M7634) instruction manual, Figure 1 /
+# product data. 50 ng human genomic DNA (NA12878, high molecular weight) fragmented for 5-45 min
+# at 37 C then 15 min at 65 C; cleaned up with 2X NEBNext Sample Purification Beads; average size
+# from Agilent TapeStation D5000 HS ScreenTape. Reproduced for planning purposes; cite NEB.
+time_min,size_bp
+5,1260
+10,840
+15,610
+20,520
+25,400
+30,350
+35,320
+40,290
+45,270

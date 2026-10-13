@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ultrashear-sim"
+version = "0.1.0"
+description = "Predict NEBNext UltraShear enzymatic DNA fragment sizes and plan fragmentation time"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ email = "a@hung.bio" }]
+keywords = ["dna", "fragmentation", "ngs", "library-prep", "sequencing", "simulation"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+  "numpy>=1.26,<3",
+  "scipy>=1.11,<2",
+  "pandas>=2.1,<4",
+]
+
+[project.optional-dependencies]
+app = ["streamlit>=1.36,<2", "plotly>=5.20,<8"]
+dev = ["pytest>=8", "ruff>=0.5", "streamlit>=1.36,<2", "plotly>=5.20,<8"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ultrashear"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"data/neb_calibration.csv" = "ultrashear/neb.csv"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "NPY"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
